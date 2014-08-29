@@ -1,0 +1,11 @@
+instr 1
+
+kchannel chnget "/1/fader1"
+kchannelOn chnget "/1/fader2"
+aphasor phasor kchannel
+
+asig, asig1  mincer aphasor * kchannel, 1, kchannelOn, 1, 1
+    out asig
+endin
+
+

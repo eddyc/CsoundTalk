@@ -1,0 +1,11 @@
+instr 1
+	aEnv adsr 0.5, 0.001, 1, 2
+    	kFiltEnv adsr 1, 0.001, 1,2
+	a1 vco2 0.5, p4
+    	a2 vco2 0.5, p4 / 2 + (p4 / 2) * 0.01
+	a3 vco2 0.5, p4 * 2 + (p4 * 2) * 0.01
+    	a4 lowpass2 a1 + a2 + a3, 3000 * kFiltEnv,10
+	out a4 * aEnv / 5
+endin
+
+

@@ -1,0 +1,452 @@
+<html>
+<head>
+<link rel="stylesheet" href="codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="codemirror/theme/eclipse.css">
+<script src="codemirror/lib/codemirror.js"></script>
+<script src="codemirror/mode/javascript/javascript.js"></script>
+<script src="javascripts/csoundobj.js"></script>
+<script src="javascripts/libcsound.js"></script>
+<script src="javascripts/filetostring.js"></script>
+<script src="javascripts/raphael.js"></script>
+<script src="javascripts/jquery.min.js"></script>
+<script src="javascripts/index.js"></script>
+<script src="javascripts/OSCHelper.js"></script>
+<link rel="stylesheet" href="assets/css/reset.css">
+<link rel="stylesheet" href="css/flowtime.css">
+<link rel="stylesheet" href="css/themes/default.css">
+<link rel="stylesheet" href="assets/css/prism.css">
+<link rel="stylesheet" href="css/index.css">
+
+<title>Csound Emscripten</title>
+</head>
+<body>
+<div class="flowtime">
+	<div class="ft-section" data-id="section-1">
+		<div id="/section-1/page-1" class="ft-page" data-id="page-1">
+
+			<div id="container">
+				<div id="coverslide">
+					<h1>CsoundEmscripten</h1>
+					<h2>An Audio Software API for the web</h2>
+					<h3>Edward Costello, Steven Yi,<br> Victor Lazzarini &amp; Joe Timoney</h3>
+				</div>
+			</div> 
+		</div>
+	</div>
+
+	<div class="ft-section" data-id="section-2">
+		<div id="/section-2/page-1" class="ft-page" data-id="page-1">
+
+			<div id="container">
+				<div id="normalslide">
+					<h1>Overview</h1>
+					<ul>
+						<li>Audio on the web</li>
+						<li>What is Csound?</li>
+						<li>What is Emscripten?</li>
+						<li>What is CsoundEmscripten?</li>
+						<li>Examples</li>
+					</ul>
+				</div>
+			</div> 
+		</div>
+	</div>
+
+	<div class="ft-section" data-id="section-3">
+		<div id="/section-3/page-1" class="ft-page" data-id="page-1">
+
+			<div id="container">
+				<div id="normalslide">
+					<h2>Audio on the Web</h2>
+					<ul>
+						<li>Playing audio media: music files, soundtrack of video files</li>
+						<li>Sound for games</li>
+						<li>Music synthesis, composition</li>
+						<li>Implemented on a web page using an audio software application programming interface (API)</li>
+					</ul>
+				</div>
+			</div> 
+		</div>
+	</div>
+	<div class="ft-section" data-id="section-4">
+		<div id="/section-4/page-1" class="ft-page" data-id="page-1">
+
+			<div id="container">
+				<div id="normalslide">
+					<h2>Web audio APIs</h2>
+					<h3>Plugin technologies: Flash, Java, Silverlight etc</h3>
+					<ul>
+						<li>Rely on installation of external components to the browser</li>
+						<li>In some cases are reliant on proprietary technologies</li>
+						<li>Compromise the security of the browser</li>
+					</ul>
+				</div>
+			</div> 
+		</div>
+	</div>
+	<div class="ft-section" data-id="section-5">
+		<div id="/section-5/page-1" class="ft-page" data-id="page-1">
+			<div id="container">
+				<div id="normalslide">
+					<h2>Web audio APIs</h2>
+					<h3>The Web Audio API</h3>
+					<ul>
+						<li>Supported by every major modern browser vendor, eliminating the need for plugins</li>
+						<li>Open standard created by the W3C consortium</li>
+						<li>The standard is implemented by the browser vendor, making a secure implementation more likely than when relying on a third party</li>	
+					</ul>
+				</div>
+			</div> 
+		</div>
+	</div>
+
+	<div class="ft-section" data-id="section-6">
+		<div id="/section-6/page-1" class="ft-page" data-id="page-1">
+			<div id="container">
+				<div id="normalslide">
+
+					<h2>The Web Audio API</h2>
+					<ul>
+						<li>Provides the means of processing audio in a web page using the Javascript programming language</li>
+						<li>The API is designed as a routing graph where audio can be synthesised and / or processed by connecting together different nodes</li>
+					</ul>
+
+					<img class="graph" src="images/graph.png" alt="graph">
+				</div>
+			</div> 
+		</div>
+	</div>
+
+	<div class="ft-section" data-id="section-7">
+		<div id="/section-7/page-1" class="ft-page" data-id="page-1">
+			<div id="container">
+				<div id="normalslide">
+					<h2>The Web Audio API</h2>
+					<ul>
+						<li>Web Audio API provides many useful DSP nodes including various filters, wavetable oscillators, spectral analysers etc.</li>
+						<li>Also provides a means of extensibility using the <b>ScriptProcessor</b> Node, which allows DSP code to be written in Javascript to process audio from the audio graph or synthesise new audio</li>
+					</ul>
+				</div>
+			</div> 
+		</div>
+
+	</div>
+
+
+	<div class="ft-section" data-id="section-8">
+		<div id="/section-8/page-1" class="ft-page" data-id="page-1">
+			<div id="container">
+				<div id="normalslide">
+					<h2>The Web Audio API</h2>
+					<ul>
+						<li>This allows developers to create Audio programming APIs built on top of the Web Audio API that provide extra funtionality for sound synthesis / processing</li>
+						<li>Examples include Flocking.js (Heavily influenced by Supercollider) and Timbre.js
+					</ul>
+				</div>
+			</div> 
+		</div>
+
+	</div>
+	<div class="ft-section" data-id="section-8">
+		<div id="/section-8/page-1" class="ft-page" data-id="page-1">
+			<div id="container">
+				<div id="normalslide">
+					<h2>Csound</h2>
+					<ul>
+						<li>Audio programming language written in C by Barry Vercoe at MIT</li>
+						<li>Widely used for decades by composers, sound designers and more recently by software developers</li>
+						<li>Contains a vast array of unit generators</li>
+						<li>Available natively for every major Desktop and mobile OS</li>
+					</ul>
+				</div>
+			</div> 
+		</div>
+	</div>
+
+	<div class="ft-section" data-id="section-9">
+		<div id="/section-9/page-1" class="ft-page" data-id="page-1">
+			<div id="container">
+				<div id="normalslide">
+					<h2>Emscripten</h2>
+					<ul>
+						<li>Created by Alon Zakai at Mozilla</li>
+						<li>A transcompiler: Can translate from one programming language to another</li>
+						<li>Software written in C/C++ can be transcompiled into Javascript using Emscripten</li>
+											</ul>
+				</div>
+			</div> 
+		</div>
+	</div>
+	<div class="ft-section" data-id="section-10">
+		<div id="/section-10/page-1" class="ft-page" data-id="page-1">
+			<div id="container">
+				<div id="normalslide">
+					<h2>Emscripten</h2>
+					<ul>
+						<li>Allows software written in C/C++ to be run natively in the Web browser without the need of plugins</li>
+						<li>Compiles to a subset of Javascript asm.js, which can be highly optimised acheiving near half native C execution performance, an advantage over handwritten Javascript</li>
+					</ul>
+				</div>
+			</div> 
+		</div>
+	</div>
+	<div class="ft-section" data-id="section-10">
+		<div id="/section-10/page-1" class="ft-page" data-id="page-1">
+			<div id="container">
+				<div id="normalslide">
+
+					<h2>CsoundEmscripten</h2>
+					<ul>
+						<li>As the Csound library is written C, Emscripten can compile the Csound library into a Javascript</li>
+						<li>The Csound library can be included in Web pages and be used to process and synthesise audio from within the Web Audio APIs ScriptProcessor node</li>
+					</ul>
+				</div>
+			</div> 
+		</div>
+	</div>
+
+	<div class="ft-section" data-id="section-11">
+		<div id="/section-11/page-1" class="ft-page" data-id="page-1">
+			<div id="container">
+				<div id="normalslide">
+
+					<h2>Advantages compared to APIs like Flocking.js, Timbre.js... </h2>
+					<ul>
+						<li>As already mentioned: Csound is mature software already used by a large community of musicians, sound designers researchers, students...</li>
+						<li>Contains an extensive collection of unit generators, as well as instruments and compositions written using the language</li>
+						<li>Compiled to asm.js allowing optimisations which would be difficult to accomplish using handwritten Javascript</li>
+					</ul>
+				</div>
+			</div> 
+		</div>
+	</div>
+
+	<div class="ft-section" data-id="section-12">
+		<div id="/section-12/page-1" class="ft-page" data-id="page-1">
+			<div id="container">
+				<div id="normalslide">
+
+					<h2>CsoundEmscripten Features</h2>
+					<ul>
+						<li>Can compile and run Csound .orc, .sco and .csd files</li>
+						<li>Csound may be controlled using software input channels, using webpage widgets or OSC using web sockets, Web MIDI is not yet supported in many browsers</li>
+						<li>Live audio input and output is available</li>
+						<li>Applications can potentially access the full Csound API, making it possible to create complex audio applications within the browser such as a sequencer or audio editor</li>
+					</ul>
+				</div>
+			</div> 
+		</div>
+	</div>
+
+	<div class="ft-section" data-id="section-13">
+
+
+		<div id="/section-13/page-1" class="ft-page" data-id="page-1">
+			<div id="examplecontainer">
+				<div id="normalslide">
+					<h2>Examples</h2>
+					<button onclick="playFile()">Play File</button>
+					<button onclick="simpleSynth()">Simple Synth</button>
+					<button onclick="widgets()">Widgets</button>
+					<button onclick="oscExample()">OSC</button>
+					<div id="textcontainer">
+						<textarea id="instrumentTextEditor"></textarea>
+						<button onclick="sendInstrument()">Send</button>	
+						<textarea id="scoreTextEditor"></textarea>
+						<button onclick="sendScore()">Send</button>	
+						<div id="footer"></div>
+						<textarea id="keyboardtext">i1 0 0.5 <KEY></textarea>
+<script>
+</script>
+
+	<input type="range" min="0" max="1000" oninput="csoundObj.setNamedControlChannelValue('slider1', this.value)"/>
+					</div>
+				</div>
+			</div> 
+		</div>
+	</div>
+	<div class="ft-section" data-id="section-14">
+		<div id="/section-14/page-1" class="ft-page" data-id="page-1">
+			<div id="container">
+				<div id="normalslide">
+					<h2>Limitations</h2>
+
+					<ul>
+						<li>Threading: Emscripten does not currently support pthreads, therefore Csound is running as a single threaded application</li>
+						<li>Threading (again): The Web Audio API ScriptProcessorNode runs in the UI Thread, therefore using the navigation widgets of the webpage can potentially block the audio processing thread. Fortunately the Web Audio API working group has a draft specification for remedying this problem</li>
+					</ul>
+				</div>
+			</div> 
+		</div>
+	</div>
+	<div class="ft-section" data-id="section-15">
+		<div id="/section-15/page-1" class="ft-page" data-id="page-1">
+			<div id="container">
+				<div id="normalslide">
+					<h2>Future Work</h2>
+					<ul>
+						<li>Add CsoundEmscripten to the html version of the Csound Manual, enabling live performance of the opcode demonstration .csds</li>
+						<li>Add remaining plugin opcodes to CsoundEmscripten such as Fluidsynth, STK etc..
+					</ul>
+				</div>
+			</div> 
+		</div>
+	</div>
+
+	<div class="ft-section" data-id="section-16">
+		<div id="/section-16/page-1" class="ft-page" data-id="page-1">
+			<div id="container">
+				<div id="normalslide">
+					<h1>Acknowledgements</h1>
+					<h2>This work has been partly funded by the Irish HEA PRTLI-5 Digital Arts and Humanities programme.</h2>
+				</div>
+			</div> 
+		</div>
+	</div>
+</div>
+
+<script src="js/brav1toolbox.js"></script>
+<script src="js/flowtime.js"></script>
+<script src="assets/js/prism.js"></script>
+<script type="text/javascript">
+
+Flowtime.showProgress(true);
+Flowtime.parallaxInPx(true);
+Flowtime.onNavigation(onNavigation);
+Flowtime.setScrollNavigation(false);
+function onNavigation(e)
+{
+}
+Flowtime.start();
+</script>
+<script>
+var instrumentTextEditor = CodeMirror.fromTextArea(document.getElementById("instrumentTextEditor"),
+		{lineWrapping:true, theme:"eclipse",lineNumbers: true,matchBrackets: true,mode: "htmlmixed"});
+
+var scoreTextEditor = CodeMirror.fromTextArea(document.getElementById("scoreTextEditor"),
+		{lineWrapping:true, theme:"eclipse",lineNumbers: true,matchBrackets: true,mode: "htmlmixed"});
+
+var csoundObj = new CsoundObj();
+var slider1Channel = csoundObj.addControlChannel("slider1", 0);
+var fileReader = new FileReader();
+var file;
+
+fileReader.onload = (function(theFile) {
+		return function(e) {
+
+		console.log("Opened File %s", file.name);
+		FS.createDataFile('/', file.name, e.target.result, true, false);
+
+		};
+
+		})(file)
+
+function handleFileSelect(evt) {
+
+	var files = evt.target.files;
+	file = files[0];
+	console.log(file.name);
+
+	fileReader.readAsBinaryString(file);
+
+}
+
+var testFilePath = "test.csd";
+FS.createDataFile('/', testFilePath, null, true, true);
+function setInstrumentEditorContentsCallback () {
+	instrumentTextEditor.setValue(this.responseText);
+}
+
+function setInstrumentEditorContentsFromFile(filePath)
+{
+	loadFile(filePath, "text", setInstrumentEditorContentsCallback);
+}
+
+function setScoreEditorContentsCallback () {
+	scoreTextEditor.setValue(this.responseText);
+}
+
+function setScoreEditorContentsFromFile(filePath)
+{
+	loadFile(filePath, "text", setScoreEditorContentsCallback);
+}
+
+
+var indexFilePath = "index.txt"
+
+function loadContent(elementSelector, sourceUrl) {
+
+	$(""+elementSelector+"").load(""+sourceUrl+"");
+
+}
+function sendInstrument()
+{
+	var instrumentString = instrumentTextEditor.getValue();
+	csoundObj.compileOrc(instrumentString);
+}
+
+function sendScore()
+{
+	console.log("sen");
+	var scoreString = scoreTextEditor.getValue();
+	csoundObj.readScore(scoreString);
+}
+
+function midiToCps(midiIn)
+{
+	return (440.0* Math.pow(2.0, (midiIn-69.0)/12.0));
+
+}
+
+
+FS.mkdir('/audiofiles');
+function uploadAudioFileCallback () {
+
+	var data = new Uint8Array(this.response);
+	var stream = FS.open('/audiofiles/input.wav', 'w+');
+	FS.write(stream, data, 0, data.length, 0);
+	FS.close(stream);
+
+	console.log("we have a file");
+}
+
+loadFile('audiofiles/input.wav', "arraybuffer", uploadAudioFileCallback);
+
+csoundObj.compileOrc("ksmps=256\nnchnls=2\n0dbfs=1\ninstr 1\nendin\n");
+csoundObj.startAudioCallback();
+var osc = new OSC();
+osc.connect("ws://127.0.0.1:3333", csoundObj.setNamedControlChannelValue);
+csoundObj.addControlChannel("/1/fader1", 0);
+csoundObj.addControlChannel("/1/fader2", 0);
+function playFile()
+{
+	setInstrumentEditorContentsFromFile("../examples/playFileInstrument.txt");
+	setScoreEditorContentsFromFile("../examples/playFileScore.txt");
+}
+
+function simpleSynth()
+{
+	setInstrumentEditorContentsFromFile("../examples/simpleSynthInstrument.txt");
+	<!--setScoreEditorContentsFromFile("../examples/simpleSynthScore.txt");-->
+
+		document.getElementById("keyboardtext").value = "i1 0 3 <KEY>";
+}
+function widgets()
+{
+	setInstrumentEditorContentsFromFile("../examples/widgetsInstrument.txt");
+	<!--setScoreEditorContentsFromFile("../examples/simpleSynthScore.txt");-->
+
+		document.getElementById("keyboardtext").value = "i1 0 10 <KEY>";
+}
+
+function oscExample()
+{
+	setInstrumentEditorContentsFromFile("../examples/OSCInstrument.txt");
+	setScoreEditorContentsFromFile("../examples/OSCScore.txt");
+
+		document.getElementById("keyboardtext").value = "i1 0 10 <KEY>";
+}
+
+</script>
+</body>
+</html>

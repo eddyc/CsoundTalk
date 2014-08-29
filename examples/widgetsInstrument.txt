@@ -1,0 +1,20 @@
+instr 1
+
+	kchannel chnget "slider1"
+    kchannel port kchannel, 0.1
+knote phasor 1
+	
+	knote = round(knote * 3)
+	
+	knote = cpsmidinn (knote  * 12 + 50) 
+
+	knote port knote, 0.01
+	a2 vco2 0.2, knote * 1, 10
+	asig = a2
+	asig lowpass2 asig, 100 + (50 * kchannel), 10
+	adelay delay asig, 3/8
+	aout =  asig + adelay * 0.5
+	out aout 
+endin
+
+
